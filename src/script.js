@@ -19,7 +19,6 @@ class Calculator {
     constructor() {
         this.angleInDegree = true;
         this.isCalculatorInputAdd = false;
-        this.isEvaluated = false;
         this.actualExpression = '';
         display.value = '';
         curInput.value = '';
@@ -92,7 +91,6 @@ class Calculator {
         let result = "";
         for (let i = 0; i < expression.length; i++) {
             let c = expression[i];
-            let n = expression[i];
             if (c.match(/[a-z0-9]/i)) {
                 result += c + " ";
             }
@@ -351,7 +349,7 @@ FEButton.addEventListener("click", () => {
         c.isCalculatorInputAdd = true;
     }
 });
-degToRed.addEventListener('click', (e) => {
+degToRed.addEventListener('click', () => {
     let AngleText = degToRed.innerText;
     if (AngleText === "DEG") {
         degToRed.innerText = "RAD";
@@ -434,7 +432,7 @@ operators.addEventListener('click', (e) => {
         }
     }
 });
-equalButton.addEventListener('click', (e) => {
+equalButton.addEventListener('click', () => {
     if (curInput.value && !display.value.includes("=")) {
         if (c.isCalculatorInputAdd == true) {
             console.log(display.value);
@@ -462,7 +460,6 @@ equalButton.addEventListener('click', (e) => {
             console.log(display.value);
         }
     }
-    c.isEvaluated = true;
 });
 memoryButtons.addEventListener('click', (e) => {
     const button = e.target;
@@ -622,7 +619,6 @@ calculatorButtons.addEventListener("click", (e) => {
                     : curInput.value += expConst;
                 break;
             case "pi":
-                let pi = calButton.getAttribute('data-pi');
                 curInput.value && (!isNaN(Number(InputDisplay.getLastValue())) || InputDisplay.getLastValue() == PI || InputDisplay.getLastValue() == "e")
                     ? curInput.value += `*${PI}`
                     : curInput.value += PI;

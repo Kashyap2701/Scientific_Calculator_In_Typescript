@@ -22,7 +22,6 @@ class Calculator {
     actualExpression:string;
     angleInDegree:boolean = true;
     isCalculatorInputAdd = false;
-    isEvaluated = false;
 
     constructor(){
         this.actualExpression='';
@@ -118,8 +117,7 @@ class Calculator {
       let result:string = "";
     
       for (let i = 0; i < expression.length; i++) {
-        let c = expression[i];
-        let n = expression[i];
+        let c = expression[i]!;
         if (c.match(/[a-z0-9]/i)) {
           result += c + " ";
         } else if (c === ")") {
@@ -140,7 +138,7 @@ class Calculator {
             while (
               stack.length > 0 &&
               stack[stack.length - 1] !== ")" &&
-              this.precedence(c) < this.precedence(stack[stack.length - 1])
+              this.precedence(c) < this.precedence(stack[stack.length - 1]!)
             ) {
               result += stack.pop() + " ";
             }
@@ -251,7 +249,7 @@ class InputDisplay extends Calculator{
   }
 
   public static getLastValue():string{
-      return this.splitsByOperator(curInput.value).slice(-1)[0];
+      return this.splitsByOperator(curInput.value).slice(-1)[0]!;
   }
 
   public static isExpression():boolean{
@@ -364,7 +362,7 @@ if (curInput.value) {
 }
 // Dropdowns for Trigonometry and Functions
 for(let i=0;i<dropDown.length;i++){
-dropDown[i].addEventListener('click',toggleDropDown);
+dropDown[i]!.addEventListener('click',toggleDropDown);
 }
 function toggleDropDown(e:any) {
 if(e.target.tagName=='BUTTON')
@@ -422,7 +420,7 @@ FEButton.addEventListener("click",()=>{
   
 })
   
-degToRed.addEventListener('click',(e)=>{
+degToRed.addEventListener('click',()=>{
     
       let AngleText = degToRed.innerText;
   
@@ -525,7 +523,7 @@ operators.addEventListener('click',(e)=>{
     }
 })
   
-equalButton.addEventListener('click',(e)=>{
+equalButton.addEventListener('click',()=>{
 
 if(curInput.value && !display.value.includes("=")){
 
@@ -557,8 +555,6 @@ if(curInput.value && !display.value.includes("=")){
     console.log(display.value);
     } 
 }
-
-c.isEvaluated = true;
 
 })
   
@@ -736,7 +732,6 @@ calculatorButtons.addEventListener("click", (e) => {
              : curInput.value += expConst;
           break;
         case "pi":
-          let pi = calButton.getAttribute('data-pi');
           curInput.value && (!isNaN(Number(InputDisplay.getLastValue())) || InputDisplay.getLastValue()==PI || InputDisplay.getLastValue()=="e")
              ? curInput.value += `*${PI}`
              : curInput.value += PI;
