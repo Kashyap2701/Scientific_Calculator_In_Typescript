@@ -753,3 +753,13 @@ calculatorButtons.addEventListener("click", (e) => {
       }
     }
 });
+
+// when "2nd" button is click it flip the column
+flipColumn.addEventListener('click',(e)=>{
+    const button = e.target as HTMLInputElement;
+    button.classList.toggle('color-blue');
+    const first = document.getElementById("visible-column")!;
+    const second = document.getElementById("hidden-column")!;
+    first.id = "hidden-column";
+    second.id = "visible-column"; 
+});
