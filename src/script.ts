@@ -15,6 +15,8 @@ const dropDownItems = document.getElementsByClassName('dropdown-items');
 
 const PI = "\u03C0";
 
+// ----------------------------- Utility Classes ------------------------
+
 class Calculator {
 
     actualExpression:string;
@@ -293,4 +295,116 @@ class Memory {
   public static getNumber():number{
     return this.accumlator;
   }
+}
+
+const c = new Calculator();
+
+// ----------------------------- Utility Functions ------------------------
+
+// Trigonometry Functions and Maths Functions
+for(let i=0;i<dropDownItems.length;i++){ 
+dropDownItems[i]!.addEventListener('click',utilityDropdownFunctions);
+}
+function utilityDropdownFunctions(e:any){
+
+let target = ['sin','cos','tan','cot','sec','cosec','ceil','floor','abs'];
+let operator = ['+','-','=','%','^',"*","/"];
+let angleValue = c.angleInDegree ? parseFloat(curInput.value) : c.calculate(curInput!.value);
+let curDigit:number = parseFloat(curInput.value);
+
+if (curInput.value) {
+
+    // if event target include the valid target
+    if(target.includes(e.target.value))
+    {
+    // if display value doesn't contain equal
+    if (display.value && !operator.some((op)=>display.value.includes(op)))
+        // eg. sin(cos(9)) is possible
+        display.value = `${e.target.value}(${display.value})`;
+    else if(display.value.includes("=")){
+        display.value = `${e.target.value}(${curInput.value})`;
+    }
+    else 
+        display.value += `${e.target.value}(${curInput.value})`;
+    }
+    
+    switch (e.target.value) {
+    case "sin":
+        curDigit = c.angleInDegree ? Math.sin(angleValue * (3.1415926 / 180)) : Math.sin(angleValue);
+        break;
+    case "cos":
+        curDigit = c.angleInDegree ? Math.cos(angleValue * (3.1415926 / 180)) : Math.cos(angleValue);
+        break;
+    case "tan":
+        curDigit = c.angleInDegree ? Math.tan(angleValue * (3.1415926 / 180)) : Math.tan(angleValue);
+        break;
+    case "cot":
+        curDigit = c.angleInDegree ? (1 / Math.tan(angleValue * (3.1415926 / 180))) : (1 / Math.tan(angleValue));
+        break;
+    case "sec":
+        curDigit = c.angleInDegree ? (1 / Math.cos(angleValue * (3.1415926 / 180))) : (1 / Math.cos(angleValue));
+        break;
+    case "cosec":
+        curDigit = c.angleInDegree ? (1 / Math.sin(angleValue * (3.1415926 / 180))) : (1 / Math.cos(angleValue));
+        break;
+    case "ceil":
+        curDigit = Math.ceil(curDigit);
+        break;
+    case "floor":
+        curDigit = Math.floor(curDigit);
+        break;
+    case "abs":
+        curDigit = Math.abs(curDigit);
+        break;
+    }
+    c.actualExpression += curDigit.toFixed(5).toString();
+    c.isCalculatorInputAdd = true;
+    curInput.value = curDigit.toFixed(5);
+}
+}
+// Dropdowns for Trigonometry and Functions
+for(let i=0;i<dropDown.length;i++){
+dropDown[i].addEventListener('click',toggleDropDown);
+}
+function toggleDropDown(e:any) {
+if(e.target.tagName=='BUTTON')
+e.target.nextElementSibling.style.display == "none"
+    ? (e.target.nextElementSibling.style.display = "flex") 
+    : (e.target.nextElementSibling.style.display = "none");
+}
+
+// function check parenthenses
+function isBalanced(str:string):boolean {
+    const stack = [];
+
+    // Iterate over each character in the string
+    for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+
+    // If the character is an opening parenthesis, push it onto the stack
+    if (char === '(') {
+        stack.push(char);
+    }
+    // If the character is a closing parenthesis, pop the last opening parenthesis from the stack
+    else if (char === ')') {
+        if (stack.length === 0) {
+        return false; // Stack is empty, no opening parenthesis to match
+        } else {
+        stack.pop();
+        }
+    }
+    // Ignore all other characters
+    }
+
+    // If the stack is empty, all parentheses are balanced
+    return stack.length === 0;
+}
+
+// Find the Fectorial Number
+function fact(number:number):number {
+let fact = 1;
+for (let i = number; i >= 1; i--) {
+    fact = fact * i;
+}
+return fact;
 }
